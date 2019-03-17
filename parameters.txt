@@ -1,0 +1,20 @@
+#particle input file
+unbound_particles.txt
+#planet input file
+planet_data.txt
+#star input file
+star file here
+#Output File Name
+textp.txt
+#Number of steps
+10000
+#Step size in orbits
+0.0005
+#Step_Output
+10
+#Semi major axis
+1
+#Eccentricity
+0.3
+#True Anomaly
+0
