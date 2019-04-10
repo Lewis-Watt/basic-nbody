@@ -56,9 +56,8 @@ int main(int argc, char* argv[])
 			planets[u]->vel[2] = planets[0]->vel[2];
 	}
 	std::cout << "Passes vel set up" << std::endl;
-	opendata(planets,planet_input);
-	planets[0]->mass = 1*me;
-	planets[1]->mass = 1*me;
+
+
 
 	for (int u=0; u<tot_particles;u++)
 	{
@@ -71,48 +70,60 @@ int main(int argc, char* argv[])
 		particles[u]->mass = 1;
 		particles[u]->gravity = true;
 	}
+	opendata(planets,planet_input);
 	opendata(particles,particle_input);
+	double min_val;
+	for (int u=0; u<tot_particles,u++)
+	{
 
-
-
+		if (u==0)
+		{
+			min_val = (np.sqrt( ((particles[u]->pos[0]-planets[0]->pos[0])*(particles[u]->pos[0]-planets[0]->pos[0]))
+				               +((particles[u]->pos[1]-planets[0]->pos[1])*(particles[u]->pos[1]-planets[0]->pos[1]))
+				               +((particles[u]->pos[2]-planets[0]->pos[2])*(particles[u]->pos[2]-planets[0]->pos[2]))));
+			continue;
+		}
+		double rad_ptop = (np.sqrt( ((particles[u]->pos[0]-planets[0]->pos[0])*(particles[u]->pos[0]-planets[0]->pos[0]))
+				               +((particles[u]->pos[1]-planets[0]->pos[1])*(particles[u]->pos[1]-planets[0]->pos[1]))
+				               +((particles[u]->pos[2]-planets[0]->pos[2])*(particles[u]->pos[2]-planets[0]->pos[2]))));
+		min_val = std::min(rad_ptop,min_val);
+	}
+	std::cout << "Min val: " << min_val <<std::endl;
 	std::ofstream output_file;
-	output_file.open (fout);
+	int file_count = 0;
 	for (int j=0; j<nsteps; j++)
 	{
-		step(particles,j,step_size*period,planets);
-		step(planets,j,step_size*period,planets);
+
+		if (j!=0)
+		{
+			step(particles,j,step_size*period,planets);
+			step(planets,j,step_size*period,planets);
+		}
 		if (j%stepout==0)
 		{
-
+			output_file.open (fout+"_"+std::to_string(file_count)+".txt");
 			for (int g=0; g<tot_particles; g++)
 			{
 				output_file << particles[g]->pos[0] << "\t";
+				output_file << particles[g]->pos[1] << "\t";
+				output_file << particles[g]->pos[2] << "\t";
+				output_file << std::endl;
 			}
 			for (int g=0;g<tot_planets; g++)
 			{
 				output_file << planets[g]->pos[0] << "\t";
-			}
-			for (int g=0; g<tot_particles; g++)
-			{
-				output_file << particles[g]->pos[1] << "\t";
-			}
-			for (int g=0;g<tot_planets; g++)
-			{
 				output_file << planets[g]->pos[1] << "\t";
-			}
-			for (int g=0; g<tot_particles; g++)
-			{
-				output_file << particles[g]->pos[2] << "\t";
-			}
-			for (int g=0;g<tot_planets; g++)
-			{
 				output_file << planets[g]->pos[2] << "\t";
+				output_file << std::endl;
 			}
-			output_file << std::endl;
-		}
+			output_file.close();
+			file_count++;
 
+
+		}
+		
 	}
-	output_file.close();
+
 	return 0;
 }
 

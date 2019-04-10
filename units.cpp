@@ -19,3 +19,4 @@ double period;
 double step_size;
 int nsteps;
 int stepout;
+double rper = (1-eccentricity)*sma;

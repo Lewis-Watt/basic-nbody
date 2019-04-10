@@ -82,7 +82,7 @@ void step(particle_data **r, int s, double step_size,  particle_data **q,double 
 	{
 		for (int i=0; i<tot_planets; i++)
 		{
-			if (s==0)
+			if (s==1)
 			{
 				acc(r[i],mass,q);
 			}
@@ -94,7 +94,7 @@ void step(particle_data **r, int s, double step_size,  particle_data **q,double 
 	{
 		for (int i=0; i<tot_particles; i++)
 		{
-			if (s==0)
+			if (s==1)
 			{
 				acc(r[i],mass,q);
 			}

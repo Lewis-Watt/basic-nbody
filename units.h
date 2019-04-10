@@ -18,4 +18,5 @@ extern double period;
 extern double step_size;
 extern int nsteps;
 extern int stepout;
+extern double rper;
 #endif
