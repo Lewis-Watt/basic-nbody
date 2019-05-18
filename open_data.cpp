@@ -48,10 +48,10 @@ void opendata(particle_data **r,std::string file)
 			r[j]->pos[1] += (n[0]*std::sin(phi))+(n[1]*std::cos(phi));
 
 			r[j]->pos[2] += n[2];
-			r[j]->vel[0] +=  (n[3]*std::cos(phi)) - (n[4]*std::sin(phi)); //n[3];
-			r[j]->vel[1] += (n[3]*std::sin(phi)) + (n[4]*std::cos(phi));//n[4];
+			r[j]->vel[0] +=  ((n[3]*std::cos(phi)) - (n[4]*std::sin(phi)));
+			r[j]->vel[1] += ((n[3]*std::sin(phi)) + (n[4]*std::cos(phi)));
 			r[j]->vel[2] += n[5];
-			r[j]->mass = n[6]*me;
+			r[j]->mass = n[6]*me_SI/mass_SI;
 			j++;
 		}
 		myfile.close();

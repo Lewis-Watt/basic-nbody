@@ -58,14 +58,14 @@ void parameter_readin(std::string input)
 
 	}
 	ifs.close();
-	period = std::sqrt((4*M_PI*M_PI*sma*sma*sma)/(grav_const*1.989*std::pow(10,30)));
+	period = std::sqrt((4*M_PI*M_PI*sma*sma*sma)/(grav_const*1));
 	tot_particles = lines_in_txtfile(particle_input);
 	tot_planets = lines_in_txtfile(planet_input);
 	std::cout<< "Starting Position Properties" << std::endl;
 	std::cout << "Semi Major Axis: " << sma << "au" <<std::endl;
 	std::cout << "Eccentricity: " << eccentricity << std::endl;
 	std::cout << "True Anomaly: " << true_anomaly << std::endl;
-	std::cout << "Period: " << period/year << std::endl;
+	std::cout << "Period: " << period*time_yr << std::endl;
 }
 
 int lines_in_txtfile(std::string file)

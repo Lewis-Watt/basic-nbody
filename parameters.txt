@@ -1,11 +1,11 @@
 #particle input file
 upsampled_particles.txt
 #planet input file
-planet_data.txt
+/homeb/jv18776/C++_code/basic_nbody/planet_data.txt
 #star input file
 star file here
 #Output File Name
-test_out/upsample
+/homeb/jv18776/C++_code/basic_nbody/1au_disvk0_02/upsample_100000_1au
 #Number of steps
 12000
 #Step size in orbits

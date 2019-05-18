@@ -1,11 +1,15 @@
 #include <iostream>
 #include "units.h"
 #include <cmath>
+#define _USE_MATH_DEFINES
 #include <string>
-double au = 1.496*std::pow(10,11);
-double me = 5.972*std::pow(10,24);
-double year= 60*60*24*365.25;
-double grav_const =  1.992*std::pow(10,-44);
+double au_SI = 1.496e11;
+double me_SI = 5.972e24;
+double year_SI= 60*60*24*365.25;
+double time_SI = year_SI/(2*M_PI);
+double mass_SI = 1.99e30;
+double grav_const =  1;//1.992e-44);
+double time_yr = 1/(2*M_PI);
 int tot_particles;
 int tot_planets;
 std::string particle_input;
@@ -19,4 +23,4 @@ double period;
 double step_size;
 int nsteps;
 int stepout;
-double rper = (1-eccentricity)*sma;
+

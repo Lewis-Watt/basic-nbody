@@ -16,9 +16,10 @@ void acc(particle_data *r, double mass, particle_data **planet)
 	for (int h=0; h<r->pos.capacity();h++)
 	{
 
-		r->a[h] = ((-grav_const*mass*r->pos[h])/(std::pow(radius,3)));
+		r->a[h] = ((-grav_const*mass*r->pos[h])/(radius*radius*radius));
 
 	}
+
 	if (r->gravity ==true)
 	{
 
@@ -31,11 +32,11 @@ void acc(particle_data *r, double mass, particle_data **planet)
 				(r->pos[2]-q->pos[2])*(r->pos[2]-q->pos[2])));
 			for (int h=0; h<r->pos.capacity();h++)
 			{
-				r->a[h] += (-grav_const*q->mass*(r->pos[h]-q->pos[h]))/std::pow(qr,3);
+				r->a[h] += (-grav_const*q->mass*(r->pos[h]-q->pos[h]))/(qr*qr*qr);
 			}
 		}
 	}
-
+// change back once finished without planet
 	else
 	{
 		for (int o=0; o<tot_planets;o++)
@@ -52,10 +53,11 @@ void acc(particle_data *r, double mass, particle_data **planet)
 				(r->pos[2]-q->pos[2])*(r->pos[2]-q->pos[2])));
 			for (int h=0; h<r->pos.capacity();h++)
 			{
-				r->a[h] += (-grav_const*q->mass*(-r->pos[h]+q->pos[h]))/std::pow(qr,3);
+				r->a[h] += (-grav_const*q->mass*(-r->pos[h]+q->pos[h]))/(qr*qr*qr);
 			}
 		}
 	}
+	
 }
 
 void vel(particle_data *r, double t,double mass, particle_data **q)
@@ -76,7 +78,7 @@ void dist(particle_data *r,double t)
 	}
 }
 
-void step(particle_data **r, int s, double step_size,  particle_data **q,double mass)
+void step(particle_data **r, int s, double t,  particle_data **q,double mass)
 {
 	if (r[0]->gravity==false)
 	{
@@ -86,8 +88,8 @@ void step(particle_data **r, int s, double step_size,  particle_data **q,double 
 			{
 				acc(r[i],mass,q);
 			}
-			dist(r[i],step_size);
-			vel(r[i],step_size,mass,q);
+			dist(r[i],t);
+			vel(r[i],t,mass,q);
 		}
 	}
 	else
@@ -98,8 +100,8 @@ void step(particle_data **r, int s, double step_size,  particle_data **q,double 
 			{
 				acc(r[i],mass,q);
 			}
-			dist(r[i],step_size);
-			vel(r[i],step_size,mass,q);
+			dist(r[i],t);
+			vel(r[i],t,mass,q);
 		}
 	}
 
