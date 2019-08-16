@@ -14,13 +14,13 @@ int tot_particles;
 int tot_planets;
 std::string particle_input;
 std::string planet_input;
-std::string star_out;
+double star_mass;
 std::string fout;
 double sma;
 double eccentricity;
 double true_anomaly; 
 double period;
-double step_size;
+double part_rot;
 int nsteps;
 int stepout;
 

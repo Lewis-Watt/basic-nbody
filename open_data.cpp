@@ -42,7 +42,9 @@ void opendata(particle_data **r,std::string file)
 			{
 				phi = M_PI - phi;
 			}
-			
+			// Rotation term
+			phi += part_rot;
+
 			r[j]->pos[0] += (n[0]*std::cos(phi))-(n[1]*std::sin(phi));
 
 			r[j]->pos[1] += (n[0]*std::sin(phi))+(n[1]*std::cos(phi));
@@ -52,6 +54,8 @@ void opendata(particle_data **r,std::string file)
 			r[j]->vel[1] += ((n[3]*std::sin(phi)) + (n[4]*std::cos(phi)));
 			r[j]->vel[2] += n[5];
 			r[j]->mass = n[6]*me_SI/mass_SI;
+			r[j]->planet_radius = (6371000/au_SI)*std::pow(r[j]->mass/(me_SI/mass_SI),0.55);
+			r[j]->id = int(n[7]);
 			j++;
 		}
 		myfile.close();

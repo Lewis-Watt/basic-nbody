@@ -24,7 +24,7 @@ void parameter_readin(std::string input)
 		}
 		if (count == 5)
 		{
-			star_out = line;
+			star_mass = std::stod(line,&size1);
 		}
 		if (count == 7)
 		{
@@ -36,7 +36,7 @@ void parameter_readin(std::string input)
 		}
 		if (count==11)
 		{
-			step_size = std::stod(line,&size1);
+			part_rot = std::stod(line,&size1)*M_PI;
 		}
 		if (count==13)
 		{
@@ -58,7 +58,7 @@ void parameter_readin(std::string input)
 
 	}
 	ifs.close();
-	period = std::sqrt((4*M_PI*M_PI*sma*sma*sma)/(grav_const*1));
+	period = std::sqrt((4*M_PI*M_PI*sma*sma*sma)/(grav_const*star_mass));
 	tot_particles = lines_in_txtfile(particle_input);
 	tot_planets = lines_in_txtfile(planet_input);
 	std::cout<< "Starting Position Properties" << std::endl;

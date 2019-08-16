@@ -9,7 +9,12 @@ class particle_data
 		std::vector<double> pos;
 		std::vector<double> vel;
 		std::vector<double> a;
+		std::vector<double> dtop;
+		int scount;
 		double mass;
+		double hr;
+		double planet_radius;
+		bool deleted;
 		bool gravity;
 		int id;
 };

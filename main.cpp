@@ -75,34 +75,35 @@ int main(int argc, char* argv[])
 		particles[u]->mass = 0;
 		particles[u]->gravity = true; //change back to true also change step.cpp back to normal
 	}
+	std::cout << particles[0]->pos[0] << std::endl;
 	opendata(planets,planet_input);
 	opendata(particles,particle_input);
-	double min_val;
-	std::cout << "Planet Mass: " << planets[0]->mass << std::endl;
 
-	// Compares distance from planet to each particle and picks out the min
+	for (int u=0;u<tot_planets;u++)
+	{
+		//planets[u]->mass =0;
+		acc(planets[u],planets);
+		planets[u]->hr = hill_radius(planets[u]);
+	}
 	for (int u=0; u<tot_particles;u++)
 	{
-
-		if (u==0)
-		{
-			min_val = (std::sqrt( ((particles[u]->pos[0]-planets[0]->pos[0])*(particles[u]->pos[0]-planets[0]->pos[0]))
-				               +((particles[u]->pos[1]-planets[0]->pos[1])*(particles[u]->pos[1]-planets[0]->pos[1]))
-				               +((particles[u]->pos[2]-planets[0]->pos[2])*(particles[u]->pos[2]-planets[0]->pos[2]))));
-			continue;
+		acc(particles[u],planets);
+		for (int m=0; m<tot_planets; m++)
+		{	
+			particles[u]->dtop[m] = dist_to_planet(particles[u],planets[m]);
 		}
-		double rad_ptop = (std::sqrt( ((particles[u]->pos[0]-planets[0]->pos[0])*(particles[u]->pos[0]-planets[0]->pos[0]))
-				               +((particles[u]->pos[1]-planets[0]->pos[1])*(particles[u]->pos[1]-planets[0]->pos[1]))
-				               +((particles[u]->pos[2]-planets[0]->pos[2])*(particles[u]->pos[2]-planets[0]->pos[2]))));
-		min_val = std::min(rad_ptop,min_val);
 	}
+	
+	std::cout << "Planet Mass: " << planets[0]->mass << std::endl;
+	std::cout << "Planet Radius: " << planets[0]->planet_radius << std::endl;
 
-	double step_time = period/200000;//2*M_PI*std::sqrt(min_val*min_val*min_val/(grav_const*planets[0]->mass))/100;
-	//std::cout << (step_time/(step_size*period)) << std::endl;
+	// Compares distance from planet to each particle and picks out the min
+
+	double step_time = period/2000;
 	std::ofstream output_file;
-	nsteps = 5*(period/step_time) + 1;
+	nsteps = 20*(period/step_time) + 1;
 	std::cout << "Number of steps:" <<nsteps << std::endl;
-	stepout = 0.01*period/step_time;
+	stepout = 0.05*2000;
 	std::cout << "Output every " << stepout << "steps" <<std::endl;
 	int file_count = 0;
 	for (int j=0; j<nsteps; j++)
@@ -111,9 +112,13 @@ int main(int argc, char* argv[])
 		if (j!=0)
 		{
 			step(particles,j,step_time,planets);
-			step(planets,j,step_time,planets);
+			if (j > (0.1*period/step_time));
+			{
+				remove_particles(particles,planets);
+			}
+
 		}
-		if ((j%stepout==0) || (j==nsteps-1))
+		if (j%stepout==0)
 		{
 			output_file.open (fout+"_"+std::to_string(file_count)+".txt");
 			for (int g=0; g<tot_particles; g++)
@@ -121,10 +126,10 @@ int main(int argc, char* argv[])
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->pos[0] << "\t";
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->pos[1] << "\t";
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->pos[2] << "\t";
-				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[0] << "\t";
-				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[1] << "\t";
-				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[2] << "\t";
-				
+				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[0] << "\t";
+				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[1] << "\t";
+				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[2] << "\t";
+				output_file << particles[g]->id;
 				output_file << std::endl;
 			}
 			for (int g=0;g<tot_planets; g++)
@@ -132,9 +137,10 @@ int main(int argc, char* argv[])
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->pos[0] << "\t";
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->pos[1] << "\t";
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->pos[2] << "\t";
-				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[0] << "\t";
-				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[1] << "\t";
-				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[2] << "\t";
+				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[0] << "\t";
+				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[1] << "\t";
+				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[2] << "\t";
+				output_file << planets[g]->id;
 				output_file << std::endl;
 			}
 			output_file.close();

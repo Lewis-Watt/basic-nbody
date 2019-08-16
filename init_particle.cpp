@@ -22,11 +22,13 @@ void init_particle(particle_data **r,int num_of_objects)
 		r[i]->pos.reserve(3);
 		r[i]->vel.reserve(3);
 		r[i]->a.reserve(3);
+		r[i]->dtop.reserve(tot_planets);
 		r[i]->pos[0] = radius*std::cos(true_anomaly);
 		r[i]->pos[1] = radius*std::sin(true_anomaly);
 		r[i]->pos[2] = 0;
 		r[i]->gravity = false;
-		r[i]->id = i;
+		r[i]->deleted = false;
+		
 	}
 }
 
