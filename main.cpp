@@ -27,7 +27,7 @@
    vx,vy,vz. Kinda Done - need to add them to the parameter file input
 9)Need to orientate the inputted data
 
-g++ -std=c++14 main.cpp step.cpp init_particle.cpp load.cpp units.cpp particle_data.cpp open_data.cpp -o nufc
+g++ -std=c++14 main.cpp step.cpp init_particle.cpp load.cpp units.cpp particle_data.cpp open_data.cpp -o edapc
 
 */
 
@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
 		particles[u]->mass = 0;
 		particles[u]->gravity = true; //change back to true also change step.cpp back to normal
 	}
-	std::cout << particles[0]->pos[0] << std::endl;
+	//std::cout << particles[0]->pos[0] << std::endl;
 	opendata(planets,planet_input);
 	opendata(particles,particle_input);
 
@@ -112,11 +112,12 @@ int main(int argc, char* argv[])
 		if (j!=0)
 		{
 			step(particles,j,step_time,planets);
+			
 			if (j > (0.1*period/step_time));
 			{
 				remove_particles(particles,planets);
 			}
-
+			
 		}
 		if (j%stepout==0)
 		{
@@ -126,9 +127,10 @@ int main(int argc, char* argv[])
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->pos[0] << "\t";
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->pos[1] << "\t";
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->pos[2] << "\t";
-				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[0] << "\t";
-				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[1] << "\t";
-				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[2] << "\t";
+				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[0] << "\t";
+				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[1] << "\t";
+				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->vel[2] << "\t";
+				output_file << std::scientific << std::setw(11) << std::setprecision(6) << particles[g]->mass   << "\t";
 				output_file << particles[g]->id;
 				output_file << std::endl;
 			}
@@ -137,9 +139,10 @@ int main(int argc, char* argv[])
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->pos[0] << "\t";
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->pos[1] << "\t";
 				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->pos[2] << "\t";
-				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[0] << "\t";
-				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[1] << "\t";
-				//output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[2] << "\t";
+				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[0] << "\t";
+				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[1] << "\t";
+				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->vel[2] << "\t";
+				output_file << std::scientific << std::setw(11) << std::setprecision(6) << planets[g]->mass   << "\t";
 				output_file << planets[g]->id;
 				output_file << std::endl;
 			}

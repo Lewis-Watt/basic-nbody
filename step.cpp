@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
+#include <cstdlib>
 #include "units.h"
 #include "step.h"
 #include "particle_data.h"
@@ -47,7 +48,7 @@ void acc(particle_data *r, particle_data **planet)
 
 			for (int h=0; h<r->pos.capacity();h++)
 			{
-				r->a[h] += (-grav_const*q->mass*(-r->pos[h]+q->pos[h]))/(r->dtop[o]*r->dtop[o]*r->dtop[o]);
+				r->a[h] += (-grav_const*q->mass*(r->pos[h]-q->pos[h]))/(r->dtop[o]*r->dtop[o]*r->dtop[o]);
 			}
 		}
 	}
@@ -101,7 +102,7 @@ double escape_vel(particle_data *r, particle_data *q)
 
 double hill_radius(particle_data *q)
 {
-	return (std::cbrt((q->mass/(3*(star_mass+q->mass)))))*sma;
+	return (std::cbrt((q->mass/(3*(star_mass+q->mass))))*sma);
 }
 
 
@@ -117,7 +118,7 @@ void remove_particles(particle_data **r, particle_data **q)
 		for (int n=0; n<tot_planets; n++)
 		{
 			r[p]->dtop[n] = dist_to_planet(r[p],q[n]);
-			if (r[p]->dtop[n] < 0*q[n]->planet_radius)
+			if (r[p]->dtop[n] < 1.3*q[n]->planet_radius)
 			{
 				q[n]->mass += r[p]->mass;
 				r[p]->deleted = true;
@@ -146,11 +147,11 @@ void select(particle_data *r, particle_data **q,double t)
 
 	double radius = std::sqrt(r->pos[0]*r->pos[0] + r->pos[1]*r->pos[1] + r->pos[2]*r->pos[2]);
 	double p_around_star = std::sqrt(4*M_PI*M_PI*radius*radius*radius/(grav_const*star_mass));
-	if (p_around_star/100 < t)
+	if (p_around_star/20 < t)
 	{
 		r->scount +=1;
 	}
-
+	
 	else
 	{
 		for (int m=0; m<tot_planets; m++)
@@ -170,6 +171,7 @@ void select(particle_data *r, particle_data **q,double t)
 				}
 			}
 	}
+	
 	
 }
 
@@ -198,7 +200,7 @@ void step(particle_data **r, int s, double t,  particle_data **q)
 				select(r[p],q,st);
 				dist(r[p],-st,q);
 
-			}while(sc_check!=r[p]->scount && r[p]->scount<5);
+			}while(sc_check!=r[p]->scount && r[p]->scount<8);
 		}
 		if (max_it < std::pow(2,r[p]->scount))
 		{
