@@ -109,6 +109,7 @@ double hill_radius(particle_data *q)
 void remove_particles(particle_data **r, particle_data **q)
 {
 	int count = 0;
+	int removed_count = 0;
 	for (int p=0; p<tot_particles; p++)
 	{
 		if (r[p]->deleted == true)
@@ -118,7 +119,7 @@ void remove_particles(particle_data **r, particle_data **q)
 		for (int n=0; n<tot_planets; n++)
 		{
 			r[p]->dtop[n] = dist_to_planet(r[p],q[n]);
-			if (r[p]->dtop[n] < 1.3*q[n]->planet_radius)
+			if (r[p]->dtop[n] < 1*q[n]->hr)
 			{
 				q[n]->mass += r[p]->mass;
 				r[p]->deleted = true;
@@ -132,6 +133,7 @@ void remove_particles(particle_data **r, particle_data **q)
 			r[count] = r[tot_particles-1];
 			//free(r[tot_particles-1]);
 			tot_particles--;
+			removed_count++;
 			
 		}
 		else
@@ -139,7 +141,9 @@ void remove_particles(particle_data **r, particle_data **q)
 			count++;
 		}
 	}while(count!=tot_particles);
+	std::cout << "Total Particles: " << tot_particles << std::endl;
 }
+
 
 
 void select(particle_data *r, particle_data **q,double t)
@@ -257,7 +261,7 @@ void step(particle_data **r, int s, double t,  particle_data **q)
 				for (int n=0; n<tot_planets; n++)
 				{
 					r[p]->dtop[n] = dist_to_planet(r[p],q[n]);
-					if (r[p]->dtop[n] < 1.3*q[n]->planet_radius && s>(0.1*period/t))
+					if (r[p]->dtop[n] < 1*q[n]->hr && s>(starttime_remove*period/t))
 					{
 						q[n]->mass += r[p]->mass;
 						r[p]->deleted = true;

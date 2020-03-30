@@ -21,6 +21,7 @@ double eccentricity;
 double true_anomaly; 
 double period;
 double part_rot;
+double starttime_remove;
 int nsteps;
 int stepout;
 

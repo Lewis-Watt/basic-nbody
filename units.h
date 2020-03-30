@@ -19,6 +19,7 @@ extern double eccentricity;
 extern double true_anomaly;
 extern double period;
 extern double part_rot;
+extern double starttime_remove;
 extern int nsteps;
 extern int stepout;
 #endif

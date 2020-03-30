@@ -74,10 +74,15 @@ int main(int argc, char* argv[])
 		particles[u]->vel[2] = planets[0]->vel[2];
 		particles[u]->mass = 0;
 		particles[u]->gravity = true; //change back to true also change step.cpp back to normal
+		
 	}
+	std::cout << "Passes Particle Initialisation" << std::endl;
 	//std::cout << particles[0]->pos[0] << std::endl;
 	opendata(planets,planet_input);
+	std::cout << "Planet data loaded" << std::endl;
 	opendata(particles,particle_input);
+	std::cout << "Particle data loaded" << std::endl;
+
 
 	for (int u=0;u<tot_planets;u++)
 	{
@@ -111,9 +116,10 @@ int main(int argc, char* argv[])
 
 		if (j!=0)
 		{
+			std::cout << "Step: " << j << std::endl;
 			step(particles,j,step_time,planets);
 			
-			if (j > (0.1*period/step_time));
+			if (j > (starttime_remove*period/step_time))
 			{
 				remove_particles(particles,planets);
 			}

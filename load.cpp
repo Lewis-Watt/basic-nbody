@@ -54,6 +54,10 @@ void parameter_readin(std::string input)
 		{
 			true_anomaly = std::stod(line,&size1);
 		}
+		if (count == 21)
+		{
+			starttime_remove = std::stod(line,&size1);
+		}
 		count++;
 
 	}
@@ -66,6 +70,7 @@ void parameter_readin(std::string input)
 	std::cout << "Eccentricity: " << eccentricity << std::endl;
 	std::cout << "True Anomaly: " << true_anomaly << std::endl;
 	std::cout << "Period: " << period*time_yr << std::endl;
+
 }
 
 int lines_in_txtfile(std::string file)

@@ -1,15 +1,15 @@
 #particle input file
-upsampled_particles.txt
+/Users/jv18776/n_body_data/remove_particle_test/init.txt
 #planet input file
-/homeb/jv18776/C++_code/basic_nbody/planet_data.txt
-#star input file
-star file here
+/Users/jv18776/n_body_data/remove_particle_test/plfile
+#star mass
+1
 #Output File Name
-/homeb/jv18776/C++_code/basic_nbody/1au_disvk0_02/upsample_100000_1au
+/Users/jv18776/n_body_data/remove_particle_test/test/step
 #Number of steps
 12000
-#Step size in orbits
-0.0005
+#Particle Rotation
+0
 #Step_Output
 2000
 #Semi major axis
@@ -18,3 +18,5 @@ star file here
 0
 #True Anomaly
 0
+#Remove Particle start time
+0.1
