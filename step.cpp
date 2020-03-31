@@ -119,7 +119,7 @@ void remove_particles(particle_data **r, particle_data **q)
 		for (int n=0; n<tot_planets; n++)
 		{
 			r[p]->dtop[n] = dist_to_planet(r[p],q[n]);
-			if (r[p]->dtop[n] < 1*q[n]->hr)
+			if (r[p]->dtop[n] < 1*q[n]->hr && vel_to_planet(r[p],q[n])<escape_vel(r[p],q[n]))
 			{
 				q[n]->mass += r[p]->mass;
 				r[p]->deleted = true;
@@ -261,8 +261,9 @@ void step(particle_data **r, int s, double t,  particle_data **q)
 				for (int n=0; n<tot_planets; n++)
 				{
 					r[p]->dtop[n] = dist_to_planet(r[p],q[n]);
-					if (r[p]->dtop[n] < 1*q[n]->hr && s>(starttime_remove*period/t))
+					if (r[p]->dtop[n] < 1*q[n]->hr && s>(starttime_remove*period/t) && vel_to_planet(r[p],q[n])<escape_vel(r[p],q[n]))
 					{
+
 						q[n]->mass += r[p]->mass;
 						r[p]->deleted = true;
 						break;
